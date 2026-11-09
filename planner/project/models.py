@@ -68,3 +68,41 @@ class AssignedProjects(BaseClass):
     def __str__(self):
 
         return f'{self.project.name}-{self.project_start_date}'
+
+class PriorityChoices(models.TextChoices):
+    LOW='Low','Low'
+
+    MEDIUM = 'Medium','Medium'
+
+    HIGH ='High','High'
+
+class Task(BaseClass):
+
+    assigned_project = models.ForeignKey('AssignedProjects',on_delete=models.PROTECT,related_name='task_project')
+
+    assigned_to = models.ForeignKey('authentication.Profile',on_delete=models.PROTECT,related_name='task_assigned_to')
+
+    title = models.CharField(max_length=225)
+
+    description = models.TextField()
+
+    priority = models.CharField(max_length=15,choices=PriorityChoices.choices)
+
+    duration = models.TimeField(null=True,blank=True)
+
+    start_date = models.DateField(null=True,blank=True)
+
+    end_date =models.DateField(null=True,blank=True)
+
+    completed = models.BooleanField(default=False)
+
+    class Meta :
+
+        verbose_name = 'Task'
+
+        verbose_name_plural = 'Tasks'
+
+
+    def __str__(self):
+
+        return f'{self.assigned_project.project.name}-{self.assigned_to}-{self.title}'

@@ -15,6 +15,8 @@ from planner.utils import generate_password , send_email
 
 import threading 
 
+
+
 # Create your views here.
 
 
